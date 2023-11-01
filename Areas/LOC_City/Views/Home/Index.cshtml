@@ -1,0 +1,104 @@
+﻿@{
+    ViewData["Title"] = "City";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Data;
+@model DataTable;
+
+<div class="container-fluid">
+
+    <div class="container">
+        <h2>Search Box</h2>
+        <hr />
+        <form method="post" asp-area="LOC_City" asp-controller="LOC_City">
+            <div class="row">
+                <div class="col-sm-3">
+                    <input type="text" class="form-control rounded-pill" name="CountryName" placeholder="Country Name" value="@ViewBag.CountryName" />
+
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control rounded-pill" name="StateName" placeholder="State Name" value="@ViewBag.StateName" />
+
+                </div>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control rounded-pill" name="CityName" placeholder="City Name" value="@ViewBag.CityName" />
+
+                </div>
+
+                <div class="col-4">
+                    <button type="submit" class="btn btn-success rounded-pill" asp-action="Search">Search</button>
+                    &nbsp;
+                    <a class="btn btn-danger rounded-pill" asp-action="Index">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <hr />
+    <div class="portlet light bordered margin-top-10">
+        <div class="portlet-title">
+            <div class="caption font-dark">
+                <i class="icon-settings font-dark"></i>
+                <span class="caption-subject bold uppercase">City List</span>
+            </div>
+            <div class="actions">
+                <div class="btn-group btn-group-devided">
+                    <a asp-area="LOC_City" asp-controller="LOC_City" asp-action="Add" class="btn green btn-rounded">&nbsp;Insert Record</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br />
+
+    <table class="table table-striped table-bordered table-hover table-header-fixed" id="sample_1">
+        <thead>
+            <tr class="fw-bold fs-6 text-gray-800 px-7">
+                <th scope="col">Country Name</th>
+                <th scope="col">State Name</th>
+                <th scope="col">City Name</th>
+                <th scope="col">Creation Date</th>
+                <th scope="col">Modification Date</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (DataRow dr in Model.Rows)
+            {
+                <tr>
+                    <td>@dr["CountryName"]</td>
+                    <td>@dr["StateName"]</td>
+                    <td>@dr["CityName"]</td>
+                    <td>@Convert.ToDateTime(dr["CreationDate"]).ToString("dd-MM-yyyy")</td>
+                    <td>@Convert.ToDateTime(dr["ModificationDate"]).ToString("dd-MM-yyyy")</td>
+                    <td>
+                        <form asp-area="LOC_City" asp-controller="LOC_City">
+                            <button type="submit" class="btn btn-primary rounded-pill" asp-action="Add" asp-route-CityID="@Convert.ToInt32(dr["CityID"])">Edit</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-area="LOC_City" asp-controller="LOC_City">
+                            <button type="submit" class="btn btn-danger rounded-pill" asp-action="Delete" asp-route-CityID="@Convert.ToInt32(dr["CityID"])" onclick="return Take_Confirmation()">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+@section Scripts
+    {
+    <script>
+        function Take_Confirmation() {
+            if (confirm("Are you sure you want to Delete?")) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+    </script>
+    }

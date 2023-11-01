@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Contact Category Add/Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model AddressBook_Replica.Areas.CON_ContactCategory.Models.CON_ContactCategoryModel;
+
+<div class="row">
+    <div class="col">
+
+        <h2>@TempData["CON_ContactCategory_Insert_Msg"]</h2>
+        <h2>Contact Category</h2>
+        <hr />
+        <form asp-area="CON_ContactCategory" asp-controller="CON_ContactCategory">
+
+            @Html.HiddenFor(x => x.ContactCategoryID)
+
+           
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Contact Category</label>
+                    <div class="col-sm-4">
+                    <input type="text" class="form-control" placeholder="ContactCategory" asp-for="ContactCategory">
+                    </div>
+                </div>
+
+            @Html.HiddenFor(x => x.CreationDate)
+            @Html.HiddenFor(x => x.ModificationDate)
+            <input type="hidden" class="form-control" asp-for="UserID" value="@ViewBag.UserID"/>
+
+           
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <input type="submit" class="btn btn-primary" asp-action="Save" value="Save">
+                    <a class="btn btn-danger" asp-action="Index" value="Cancel">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
